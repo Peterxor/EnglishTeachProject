@@ -15,6 +15,9 @@ class MainViewController: UIViewController{
     var choice1: UIButton?
     var choice2: UIButton?
     var choice3: UIButton?
+    var curQuestion:Int?
+    
+    
     
     
     //this is data for test
@@ -22,11 +25,16 @@ class MainViewController: UIViewController{
     var testDataChoice1 = ["choice1-1", "choice1-2"]
     var testDataChoice2 = ["choice2-1", "choice2-2"]
     var testDataChoice3 = ["choice3-1", "choice3_2"]
+    var testAnswer = [2, 1]
+    var testUserAnswer: [Int] = []
+    var testScore: Int16?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
         setLabelAndButton()
+        testScore = 0
+        curQuestion = 0
     }
     
     
@@ -51,12 +59,69 @@ class MainViewController: UIViewController{
         choice2?.setTitleColor(.black, for: .normal)
         choice3?.setTitleColor(.black, for: .normal)
         
+        choice1?.addTarget(self, action: #selector(self.chooseOne), for: .touchDown)
+        choice2?.addTarget(self, action: #selector(self.chooseTwo), for: .touchDown)
+        choice3?.addTarget(self, action: #selector(self.chooseThree), for: .touchDown)
+        
         self.view.addSubview(questionLabel!)
         self.view.addSubview(choice1!)
         self.view.addSubview(choice2!)
         self.view.addSubview(choice3!)
 
     }
+    
+    @objc func chooseOne(){
+        if testAnswer[curQuestion!] == 1{
+            testScore = testScore! + 50
+        }
+        if curQuestion! == 1{
+            self.present(AchieveViewController(), animated: true)
+        }
+        if curQuestion! < 1{
+            curQuestion = curQuestion! + 1
+        }
+        questionLabel?.text = testDataQuestion[curQuestion!]
+        choice1?.setTitle(testDataChoice1[curQuestion!], for: .normal)
+        choice2?.setTitle(testDataChoice2[curQuestion!], for: .normal)
+        choice3?.setTitle(testDataChoice3[curQuestion!], for: .normal)
+        // show score
+        print(testScore)
+    }
+    
+    @objc func chooseTwo(){
+        if testAnswer[curQuestion!] == 2{
+            testScore = testScore! + 50
+        }
+        if curQuestion! == 1{
+            self.present(AchieveViewController(), animated: true)
+        }
+        if curQuestion! < 1{
+            curQuestion = curQuestion! + 1
+        }
+        questionLabel?.text = testDataQuestion[curQuestion!]
+        choice1?.setTitle(testDataChoice1[curQuestion!], for: .normal)
+        choice2?.setTitle(testDataChoice2[curQuestion!], for: .normal)
+        choice3?.setTitle(testDataChoice3[curQuestion!], for: .normal)
+        print(testScore)
+    }
+    
+    @objc func chooseThree(){
+        if testAnswer[curQuestion!] == 3{
+            testScore = testScore! + 50
+        }
+        if curQuestion! == 1{
+            self.present(AchieveViewController(), animated: true)
+        }
+        if curQuestion! < 1{
+            curQuestion = curQuestion! + 1
+        }
+        questionLabel?.text = testDataQuestion[curQuestion!]
+        choice1?.setTitle(testDataChoice1[curQuestion!], for: .normal)
+        choice2?.setTitle(testDataChoice2[curQuestion!], for: .normal)
+        choice3?.setTitle(testDataChoice3[curQuestion!], for: .normal)
+        print(testScore)
+    }
+    
     
     
     
