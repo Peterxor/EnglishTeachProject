@@ -8,8 +8,11 @@
 
 import Foundation
 import UIKit
+import CoreData
 
-class MainViewController: UIViewController{
+class MainViewController: UIViewController, URLSessionDelegate, URLSessionDownloadDelegate{
+    
+    
     
     var questionLabel: UILabel?
     var choice1: UIButton?
@@ -17,27 +20,102 @@ class MainViewController: UIViewController{
     var choice3: UIButton?
     var curQuestion:Int?
     
+    var sourceURL: URL?
+    var localURL: URL?
+    var downloadTimer: Timer?
+    var downloadFinished: Bool?
+    var urlSession: URLSession?
+    var pDatas: [[String:Any]]?
+    var pData: [String: Any]?
     
+    var alertRight: UIAlertController?
+    var alertWrong: UIAlertController?
     
+    var context: NSManagedObjectContext?
+    var userScore: UserMO?
+    var appDelegate: AppDelegate?
+    var questionScore: Int16?
     
-    //this is data for test
-    var testDataQuestion = ["question1", "question2"]
-    var testDataChoice1 = ["choice1-1", "choice1-2"]
-    var testDataChoice2 = ["choice2-1", "choice2-2"]
-    var testDataChoice3 = ["choice3-1", "choice3_2"]
-    var testAnswer = [2, 1]
-    var testUserAnswer: [Int] = []
-    var testScore: Int16?
+    var questionNum: Int?
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
-        setLabelAndButton()
-        testScore = 0
+        appDelegate = UIApplication.shared.delegate as? AppDelegate
+        context = appDelegate?.persistentContainer.viewContext
+        do{
+            var users = try context?.fetch(UserMO.fetchRequest())
+            print("context have \(users!.count) UserMO")
+            if users!.count > 0{
+                userScore = users![0] as! UserMO
+                userScore?.score = Int16(0)
+            }else{
+                userScore = UserMO(context: context!)
+                userScore?.score = Int16(0)
+            }
+        }catch let error as Error{
+            print(error)
+        }
+        print("Start: user score: \((userScore?.score)!)")
         curQuestion = 0
+        questionScore = Int16(10)
+        alertRight = UIAlertController(title: "Correct", message: "Press OK to next question", preferredStyle: .actionSheet)
+        alertWrong = UIAlertController(title: "Wrong", message: "Press OK to next question", preferredStyle: .actionSheet)
+        let actionright = UIAlertAction(title: "OK", style: .default)
+        let actionwrong = UIAlertAction(title: "OK", style: .default)
+        alertRight?.addAction(actionright)
+        alertWrong?.addAction(actionwrong)
+        self.downloadFinished = false
+        let urls = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        self.localURL = urls[0].appendingPathComponent("data.json")
+        self.sourceURL = URL(string: "http://localhost:8080/getProblem")
+        self.downloadTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.checkDownload), userInfo: nil, repeats: true)
+        getData(source: sourceURL!)
     }
     
+    @objc func checkDownload(){
+        if downloadFinished!{
+            downloadTimer?.invalidate()
+            setLabelAndButton()
+            print(curQuestion!)
+        }
+    }
     
+    func getData(source: URL){
+        let config = URLSessionConfiguration.default
+        urlSession = URLSession(configuration: config, delegate: self, delegateQueue: nil)
+        let downloadTask = urlSession?.downloadTask(with: source)
+        downloadTask?.resume()
+    }
+    
+    func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
+        var data: Data?
+        do{
+            data = try Data(contentsOf: location)
+            try data?.write(to: localURL!, options: .atomicWrite)
+        }catch let error as Error{
+            print(error)
+            return
+        }
+        print("Complete")
+        parseJson(dataURL: localURL!)
+        downloadFinished = true
+    }
+    
+    func parseJson(dataURL: URL){
+        var data: Data?
+        do{
+            data = try Data(contentsOf: dataURL)
+            pDatas = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as? [[String:Any]]
+        } catch let error as Error{
+            print(error)
+            return
+        }
+        for pdata in pDatas! {
+            print(pdata)
+        }
+    }
     
     
     func setLabelAndButton(){
@@ -45,15 +123,19 @@ class MainViewController: UIViewController{
         let screenHeight = UIScreen.main.bounds.height
         
         questionLabel = UILabel(frame: CGRect(x: screenWidth/5, y: screenHeight/10, width: screenWidth*3/5, height: screenHeight/3))
-        questionLabel?.text = testDataQuestion[0]
         questionLabel?.textAlignment = .center
+        questionNum = 10
+        let num = Int(arc4random()) % questionNum!
+        pData = pDatas!.remove(at: num)
+        questionNum = questionNum! - 1
+        questionLabel?.text = pData!["problem"] as? String
         choice1 = UIButton(frame: CGRect(x: screenWidth/5, y: screenHeight*19/30, width: screenWidth*3/5, height: screenHeight/20))
         choice2 = UIButton(frame: CGRect(x: screenWidth/5, y: screenHeight*22/30, width: screenWidth*3/5, height: screenHeight/20))
         choice3 = UIButton(frame: CGRect(x: screenWidth/5, y: screenHeight*25/30, width: screenWidth*3/5, height: screenHeight/20))
         
-        choice1?.setTitle(testDataChoice1[0], for: .normal)
-        choice2?.setTitle(testDataChoice2[0], for: .normal)
-        choice3?.setTitle(testDataChoice3[0], for: .normal)
+        choice1?.setTitle(pData!["choice1"] as? String, for: .normal)
+        choice2?.setTitle(pData!["choice2"] as? String, for: .normal)
+        choice3?.setTitle(pData!["choice3"] as? String, for: .normal)
         
         choice1?.setTitleColor(.black, for: .normal)
         choice2?.setTitleColor(.black, for: .normal)
@@ -70,56 +152,89 @@ class MainViewController: UIViewController{
 
     }
     
+    func updateLabelAndButton(pData: [String:Any]){
+        questionLabel?.text = pData["problem"] as? String
+        choice1?.setTitle(pData["choice1"] as? String, for: .normal)
+        choice2?.setTitle(pData["choice2"] as? String, for: .normal)
+        choice3?.setTitle(pData["choice3"] as? String, for: .normal)
+    }
+    
     @objc func chooseOne(){
-        if testAnswer[curQuestion!] == 1{
-            testScore = testScore! + 50
+        if pData!["answer"] as? Int == 1 {
+            userScore?.score += questionScore!
+            appDelegate?.saveContext()
+            if questionNum! > 0{
+                self.present(alertRight!, animated: true)
+            }else {
+                print("Your score: \(String(describing: userScore?.score))")
+                self.present(AchieveViewController(), animated: true, completion: nil)
+            }
+        }else {
+            if questionNum! > 0{
+                self.present(alertWrong!, animated: true)
+            }else {
+                print("Your score: \((userScore?.score)!)")
+                self.present(AchieveViewController(), animated: true, completion: nil)
+            }
         }
-        if curQuestion! == 1{
-            self.present(AchieveViewController(), animated: true)
+        if questionNum! > 0{
+            let num = Int(arc4random()) % questionNum!
+            pData = pDatas!.remove(at: num)
+            questionNum = questionNum! - 1
+            updateLabelAndButton(pData: pData!)
         }
-        if curQuestion! < 1{
-            curQuestion = curQuestion! + 1
-        }
-        questionLabel?.text = testDataQuestion[curQuestion!]
-        choice1?.setTitle(testDataChoice1[curQuestion!], for: .normal)
-        choice2?.setTitle(testDataChoice2[curQuestion!], for: .normal)
-        choice3?.setTitle(testDataChoice3[curQuestion!], for: .normal)
-        // show score
-        print(testScore)
     }
     
     @objc func chooseTwo(){
-        if testAnswer[curQuestion!] == 2{
-            testScore = testScore! + 50
+        if pData!["answer"] as? Int == 2 {
+            userScore?.score += questionScore!
+            appDelegate?.saveContext()
+            if questionNum! > 0{
+                self.present(alertRight!, animated: true)
+            }else {
+                print("Your score: \((userScore?.score)!)")
+                self.present(AchieveViewController(), animated: true, completion: nil)
+            }
+        }else {
+            if questionNum! > 0{
+                self.present(alertWrong!, animated: true)
+            }else {
+                print("Your score: \((userScore?.score)!)")
+                self.present(AchieveViewController(), animated: true, completion: nil)
+            }
         }
-        if curQuestion! == 1{
-            self.present(AchieveViewController(), animated: true)
+        if questionNum! > 0{
+            let num = Int(arc4random()) % questionNum!
+            pData = pDatas!.remove(at: num)
+            questionNum = questionNum! - 1
+            updateLabelAndButton(pData: pData!)
         }
-        if curQuestion! < 1{
-            curQuestion = curQuestion! + 1
-        }
-        questionLabel?.text = testDataQuestion[curQuestion!]
-        choice1?.setTitle(testDataChoice1[curQuestion!], for: .normal)
-        choice2?.setTitle(testDataChoice2[curQuestion!], for: .normal)
-        choice3?.setTitle(testDataChoice3[curQuestion!], for: .normal)
-        print(testScore)
     }
     
     @objc func chooseThree(){
-        if testAnswer[curQuestion!] == 3{
-            testScore = testScore! + 50
+        if pData!["answer"] as? Int == 3 {
+            userScore?.score += questionScore!
+            appDelegate?.saveContext()
+            if questionNum! > 0{
+                self.present(alertRight!, animated: true)
+            }else {
+                print("Your score: \((userScore?.score)!)")
+                self.present(AchieveViewController(), animated: true, completion: nil)
+            }
+        }else {
+            if questionNum! > 0{
+                self.present(alertWrong!, animated: true)
+            }else {
+                print("Your score: \((userScore?.score)!)")
+                self.present(AchieveViewController(), animated: true, completion: nil)
+            }
         }
-        if curQuestion! == 1{
-            self.present(AchieveViewController(), animated: true)
+        if questionNum! > 0{
+            let num = Int(arc4random()) % questionNum!
+            pData = pDatas!.remove(at: num)
+            questionNum = questionNum! - 1
+            updateLabelAndButton(pData: pData!)
         }
-        if curQuestion! < 1{
-            curQuestion = curQuestion! + 1
-        }
-        questionLabel?.text = testDataQuestion[curQuestion!]
-        choice1?.setTitle(testDataChoice1[curQuestion!], for: .normal)
-        choice2?.setTitle(testDataChoice2[curQuestion!], for: .normal)
-        choice3?.setTitle(testDataChoice3[curQuestion!], for: .normal)
-        print(testScore)
     }
     
     

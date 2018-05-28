@@ -13,6 +13,7 @@
 		D04290E020A27BB900886101 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D04290DE20A27BB900886101 /* LaunchScreen.storyboard */; };
 		D04290E820A27D0E00886101 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04290E720A27D0E00886101 /* MainViewController.swift */; };
 		D04290EA20A2A40700886101 /* AchieveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04290E920A2A40700886101 /* AchieveViewController.swift */; };
+		D084D97220B2A50900B04A12 /* UserRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = D084D97120B2A50900B04A12 /* UserRecord.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		D04290E120A27BB900886101 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D04290E720A27D0E00886101 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		D04290E920A2A40700886101 /* AchieveViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchieveViewController.swift; sourceTree = "<group>"; };
+		D084D97120B2A50900B04A12 /* UserRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRecord.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +58,7 @@
 		D04290D120A27BB900886101 /* EnglishTeachProject */ = {
 			isa = PBXGroup;
 			children = (
+				D084D97120B2A50900B04A12 /* UserRecord.swift */,
 				D04290D220A27BB900886101 /* AppDelegate.swift */,
 				D04290DC20A27BB900886101 /* Assets.xcassets */,
 				D04290DE20A27BB900886101 /* LaunchScreen.storyboard */,
@@ -139,6 +142,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D04290E820A27D0E00886101 /* MainViewController.swift in Sources */,
+				D084D97220B2A50900B04A12 /* UserRecord.swift in Sources */,
 				D04290DB20A27BB900886101 /* EnglishTeachProject.xcdatamodeld in Sources */,
 				D04290EA20A2A40700886101 /* AchieveViewController.swift in Sources */,
 				D04290D320A27BB900886101 /* AppDelegate.swift in Sources */,
