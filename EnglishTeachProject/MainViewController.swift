@@ -32,7 +32,7 @@ class MainViewController: UIViewController, URLSessionDelegate, URLSessionDownlo
     var alertWrong: UIAlertController?
     
     var context: NSManagedObjectContext?
-    var userScore: UserMO?
+    var user: UserData?
     var appDelegate: AppDelegate?
     var questionScore: Int16?
     
@@ -44,28 +44,19 @@ class MainViewController: UIViewController, URLSessionDelegate, URLSessionDownlo
         self.view.backgroundColor = .white
         appDelegate = UIApplication.shared.delegate as? AppDelegate
         context = appDelegate?.persistentContainer.viewContext
-        do{
-            var users = try context?.fetch(UserMO.fetchRequest())
-            print("context have \(users!.count) UserMO")
-            if users!.count > 0{
-                userScore = users![0] as! UserMO
-                userScore?.score = Int16(0)
-            }else{
-                userScore = UserMO(context: context!)
-                userScore?.score = Int16(0)
-            }
-        }catch let error as Error{
-            print(error)
-        }
-        print("Start: user score: \((userScore?.score)!)")
+        user = UserData(context: self.context!)
+        user?.testDate = Date()
+        
         curQuestion = 0
         questionScore = Int16(10)
+        
         alertRight = UIAlertController(title: "Correct", message: "Press OK to next question", preferredStyle: .actionSheet)
         alertWrong = UIAlertController(title: "Wrong", message: "Press OK to next question", preferredStyle: .actionSheet)
         let actionright = UIAlertAction(title: "OK", style: .default)
         let actionwrong = UIAlertAction(title: "OK", style: .default)
         alertRight?.addAction(actionright)
         alertWrong?.addAction(actionwrong)
+        
         self.downloadFinished = false
         let urls = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
         self.localURL = urls[0].appendingPathComponent("data.json")
@@ -161,19 +152,20 @@ class MainViewController: UIViewController, URLSessionDelegate, URLSessionDownlo
     
     @objc func chooseOne(){
         if pData!["answer"] as? Int == 1 {
-            userScore?.score += questionScore!
-            appDelegate?.saveContext()
+            user?.score += questionScore!
             if questionNum! > 0{
                 self.present(alertRight!, animated: true)
             }else {
-                print("Your score: \(String(describing: userScore?.score))")
+                print("Your score: \(String(describing: user?.score))")
+                appDelegate?.saveContext()
                 self.present(AchieveViewController(), animated: true, completion: nil)
             }
         }else {
             if questionNum! > 0{
                 self.present(alertWrong!, animated: true)
             }else {
-                print("Your score: \((userScore?.score)!)")
+                print("Your score: \((user?.score)!)")
+                appDelegate?.saveContext()
                 self.present(AchieveViewController(), animated: true, completion: nil)
             }
         }
@@ -187,19 +179,20 @@ class MainViewController: UIViewController, URLSessionDelegate, URLSessionDownlo
     
     @objc func chooseTwo(){
         if pData!["answer"] as? Int == 2 {
-            userScore?.score += questionScore!
-            appDelegate?.saveContext()
+            user?.score += questionScore!
             if questionNum! > 0{
                 self.present(alertRight!, animated: true)
             }else {
-                print("Your score: \((userScore?.score)!)")
+                print("Your score: \((user?.score)!)")
+                appDelegate?.saveContext()
                 self.present(AchieveViewController(), animated: true, completion: nil)
             }
         }else {
             if questionNum! > 0{
                 self.present(alertWrong!, animated: true)
             }else {
-                print("Your score: \((userScore?.score)!)")
+                print("Your score: \((user?.score)!)")
+                appDelegate?.saveContext()
                 self.present(AchieveViewController(), animated: true, completion: nil)
             }
         }
@@ -213,19 +206,20 @@ class MainViewController: UIViewController, URLSessionDelegate, URLSessionDownlo
     
     @objc func chooseThree(){
         if pData!["answer"] as? Int == 3 {
-            userScore?.score += questionScore!
-            appDelegate?.saveContext()
+            user?.score += questionScore!
             if questionNum! > 0{
                 self.present(alertRight!, animated: true)
             }else {
-                print("Your score: \((userScore?.score)!)")
+                print("Your score: \((user?.score)!)")
+                appDelegate?.saveContext()
                 self.present(AchieveViewController(), animated: true, completion: nil)
             }
         }else {
             if questionNum! > 0{
                 self.present(alertWrong!, animated: true)
             }else {
-                print("Your score: \((userScore?.score)!)")
+                print("Your score: \((user?.score)!)")
+                appDelegate?.saveContext()
                 self.present(AchieveViewController(), animated: true, completion: nil)
             }
         }
@@ -236,27 +230,4 @@ class MainViewController: UIViewController, URLSessionDelegate, URLSessionDownlo
             updateLabelAndButton(pData: pData!)
         }
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
 }

@@ -13,7 +13,9 @@
 		D04290E020A27BB900886101 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D04290DE20A27BB900886101 /* LaunchScreen.storyboard */; };
 		D04290E820A27D0E00886101 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04290E720A27D0E00886101 /* MainViewController.swift */; };
 		D04290EA20A2A40700886101 /* AchieveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04290E920A2A40700886101 /* AchieveViewController.swift */; };
-		D084D97220B2A50900B04A12 /* UserRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = D084D97120B2A50900B04A12 /* UserRecord.swift */; };
+		D0F8FEB920BBF5990063D11D /* pint.png in Resources */ = {isa = PBXBuildFile; fileRef = D0F8FEB820BBF5980063D11D /* pint.png */; };
+		D0F8FEBB20BD1D800063D11D /* StudentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F8FEBA20BD1D800063D11D /* StudentViewController.swift */; };
+		D0F8FEBD20BE385F0063D11D /* StudentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F8FEBC20BE385F0063D11D /* StudentCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,7 +27,9 @@
 		D04290E120A27BB900886101 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D04290E720A27D0E00886101 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		D04290E920A2A40700886101 /* AchieveViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchieveViewController.swift; sourceTree = "<group>"; };
-		D084D97120B2A50900B04A12 /* UserRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRecord.swift; sourceTree = "<group>"; };
+		D0F8FEB820BBF5980063D11D /* pint.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pint.png; sourceTree = "<group>"; };
+		D0F8FEBA20BD1D800063D11D /* StudentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentViewController.swift; sourceTree = "<group>"; };
+		D0F8FEBC20BE385F0063D11D /* StudentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,14 +62,16 @@
 		D04290D120A27BB900886101 /* EnglishTeachProject */ = {
 			isa = PBXGroup;
 			children = (
-				D084D97120B2A50900B04A12 /* UserRecord.swift */,
 				D04290D220A27BB900886101 /* AppDelegate.swift */,
 				D04290DC20A27BB900886101 /* Assets.xcassets */,
+				D0F8FEB820BBF5980063D11D /* pint.png */,
 				D04290DE20A27BB900886101 /* LaunchScreen.storyboard */,
 				D04290E120A27BB900886101 /* Info.plist */,
 				D04290D920A27BB900886101 /* EnglishTeachProject.xcdatamodeld */,
 				D04290E720A27D0E00886101 /* MainViewController.swift */,
 				D04290E920A2A40700886101 /* AchieveViewController.swift */,
+				D0F8FEBA20BD1D800063D11D /* StudentViewController.swift */,
+				D0F8FEBC20BE385F0063D11D /* StudentCell.swift */,
 			);
 			path = EnglishTeachProject;
 			sourceTree = "<group>";
@@ -131,6 +137,7 @@
 			files = (
 				D04290E020A27BB900886101 /* LaunchScreen.storyboard in Resources */,
 				D04290DD20A27BB900886101 /* Assets.xcassets in Resources */,
+				D0F8FEB920BBF5990063D11D /* pint.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -141,9 +148,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D0F8FEBB20BD1D800063D11D /* StudentViewController.swift in Sources */,
 				D04290E820A27D0E00886101 /* MainViewController.swift in Sources */,
-				D084D97220B2A50900B04A12 /* UserRecord.swift in Sources */,
 				D04290DB20A27BB900886101 /* EnglishTeachProject.xcdatamodeld in Sources */,
+				D0F8FEBD20BE385F0063D11D /* StudentCell.swift in Sources */,
 				D04290EA20A2A40700886101 /* AchieveViewController.swift in Sources */,
 				D04290D320A27BB900886101 /* AppDelegate.swift in Sources */,
 			);
