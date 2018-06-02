@@ -16,6 +16,9 @@
 		D0F8FEB920BBF5990063D11D /* pint.png in Resources */ = {isa = PBXBuildFile; fileRef = D0F8FEB820BBF5980063D11D /* pint.png */; };
 		D0F8FEBB20BD1D800063D11D /* StudentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F8FEBA20BD1D800063D11D /* StudentViewController.swift */; };
 		D0F8FEBD20BE385F0063D11D /* StudentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F8FEBC20BE385F0063D11D /* StudentCell.swift */; };
+		D0F8FEBF20BE84640063D11D /* NaviViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F8FEBE20BE84640063D11D /* NaviViewController.swift */; };
+		D0F8FEC320BFBF950063D11D /* RecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F8FEC220BFBF950063D11D /* RecordViewController.swift */; };
+		D0F8FEC620BFD11F0063D11D /* RecordCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F8FEC520BFD11F0063D11D /* RecordCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +33,9 @@
 		D0F8FEB820BBF5980063D11D /* pint.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pint.png; sourceTree = "<group>"; };
 		D0F8FEBA20BD1D800063D11D /* StudentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentViewController.swift; sourceTree = "<group>"; };
 		D0F8FEBC20BE385F0063D11D /* StudentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentCell.swift; sourceTree = "<group>"; };
+		D0F8FEBE20BE84640063D11D /* NaviViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NaviViewController.swift; sourceTree = "<group>"; };
+		D0F8FEC220BFBF950063D11D /* RecordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordViewController.swift; sourceTree = "<group>"; };
+		D0F8FEC520BFD11F0063D11D /* RecordCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,12 +74,39 @@
 				D04290DE20A27BB900886101 /* LaunchScreen.storyboard */,
 				D04290E120A27BB900886101 /* Info.plist */,
 				D04290D920A27BB900886101 /* EnglishTeachProject.xcdatamodeld */,
-				D04290E720A27D0E00886101 /* MainViewController.swift */,
+				D0F8FEBE20BE84640063D11D /* NaviViewController.swift */,
+				D0F8FEC820C10EDD0063D11D /* Menu */,
+				D0F8FEC720C10EB10063D11D /* Test */,
+				D0F8FEC920C10EFB0063D11D /* Record */,
+			);
+			path = EnglishTeachProject;
+			sourceTree = "<group>";
+		};
+		D0F8FEC720C10EB10063D11D /* Test */ = {
+			isa = PBXGroup;
+			children = (
 				D04290E920A2A40700886101 /* AchieveViewController.swift */,
+				D04290E720A27D0E00886101 /* MainViewController.swift */,
+			);
+			path = Test;
+			sourceTree = "<group>";
+		};
+		D0F8FEC820C10EDD0063D11D /* Menu */ = {
+			isa = PBXGroup;
+			children = (
 				D0F8FEBA20BD1D800063D11D /* StudentViewController.swift */,
 				D0F8FEBC20BE385F0063D11D /* StudentCell.swift */,
 			);
-			path = EnglishTeachProject;
+			path = Menu;
+			sourceTree = "<group>";
+		};
+		D0F8FEC920C10EFB0063D11D /* Record */ = {
+			isa = PBXGroup;
+			children = (
+				D0F8FEC220BFBF950063D11D /* RecordViewController.swift */,
+				D0F8FEC520BFD11F0063D11D /* RecordCell.swift */,
+			);
+			path = Record;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -151,6 +184,9 @@
 				D0F8FEBB20BD1D800063D11D /* StudentViewController.swift in Sources */,
 				D04290E820A27D0E00886101 /* MainViewController.swift in Sources */,
 				D04290DB20A27BB900886101 /* EnglishTeachProject.xcdatamodeld in Sources */,
+				D0F8FEC320BFBF950063D11D /* RecordViewController.swift in Sources */,
+				D0F8FEC620BFD11F0063D11D /* RecordCell.swift in Sources */,
+				D0F8FEBF20BE84640063D11D /* NaviViewController.swift in Sources */,
 				D0F8FEBD20BE385F0063D11D /* StudentCell.swift in Sources */,
 				D04290EA20A2A40700886101 /* AchieveViewController.swift in Sources */,
 				D04290D320A27BB900886101 /* AppDelegate.swift in Sources */,

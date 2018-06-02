@@ -13,12 +13,12 @@ import CoreData
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    var rootViewController: StudentViewController?
+    var rootViewController: NaviViewController?
     
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        rootViewController = StudentViewController()
+        rootViewController = NaviViewController()
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.rootViewController = rootViewController
         window?.backgroundColor = .green

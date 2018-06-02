@@ -13,13 +13,13 @@ import CoreData
 class MainViewController: UIViewController, URLSessionDelegate, URLSessionDownloadDelegate{
     
     
-    
+    //題目與選項的標籤按鈕
     var questionLabel: UILabel?
     var choice1: UIButton?
     var choice2: UIButton?
     var choice3: UIButton?
     var curQuestion:Int?
-    
+    //從EnglishWebServer抓資料需要的物件
     var sourceURL: URL?
     var localURL: URL?
     var downloadTimer: Timer?
@@ -27,15 +27,15 @@ class MainViewController: UIViewController, URLSessionDelegate, URLSessionDownlo
     var urlSession: URLSession?
     var pDatas: [[String:Any]]?
     var pData: [String: Any]?
-    
+    //答題時的回應，可刪除
     var alertRight: UIAlertController?
     var alertWrong: UIAlertController?
-    
+    //coredata的物件與鑰儲存的使用者資料
     var context: NSManagedObjectContext?
     var user: UserData?
     var appDelegate: AppDelegate?
     var questionScore: Int16?
-    
+    //預設的題數
     var questionNum: Int?
     
     
@@ -63,6 +63,9 @@ class MainViewController: UIViewController, URLSessionDelegate, URLSessionDownlo
         self.sourceURL = URL(string: "http://localhost:8080/getProblem")
         self.downloadTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.checkDownload), userInfo: nil, repeats: true)
         getData(source: sourceURL!)
+        
+        self.navigationItem.title = "Writing"
+        self.navigationItem
     }
     
     @objc func checkDownload(){
@@ -120,9 +123,14 @@ class MainViewController: UIViewController, URLSessionDelegate, URLSessionDownlo
         pData = pDatas!.remove(at: num)
         questionNum = questionNum! - 1
         questionLabel?.text = pData!["problem"] as? String
-        choice1 = UIButton(frame: CGRect(x: screenWidth/5, y: screenHeight*19/30, width: screenWidth*3/5, height: screenHeight/20))
-        choice2 = UIButton(frame: CGRect(x: screenWidth/5, y: screenHeight*22/30, width: screenWidth*3/5, height: screenHeight/20))
-        choice3 = UIButton(frame: CGRect(x: screenWidth/5, y: screenHeight*25/30, width: screenWidth*3/5, height: screenHeight/20))
+        choice1 = UIButton(type: .custom)
+        choice2 = UIButton(type: .custom)
+        choice3 = UIButton(type: .custom)
+        
+        choice1?.frame = CGRect(x: screenWidth/5, y: screenHeight*19/30, width: screenWidth*3/5, height: screenHeight/20)
+        choice2?.frame = CGRect(x: screenWidth/5, y: screenHeight*22/30, width: screenWidth*3/5, height: screenHeight/20)
+        choice3?.frame = CGRect(x: screenWidth/5, y: screenHeight*25/30, width: screenWidth*3/5, height: screenHeight/20)
+        
         
         choice1?.setTitle(pData!["choice1"] as? String, for: .normal)
         choice2?.setTitle(pData!["choice2"] as? String, for: .normal)
@@ -158,7 +166,7 @@ class MainViewController: UIViewController, URLSessionDelegate, URLSessionDownlo
             }else {
                 print("Your score: \(String(describing: user?.score))")
                 appDelegate?.saveContext()
-                self.present(AchieveViewController(), animated: true, completion: nil)
+                self.navigationController?.pushViewController(AchieveViewController(), animated: true)
             }
         }else {
             if questionNum! > 0{
@@ -166,7 +174,7 @@ class MainViewController: UIViewController, URLSessionDelegate, URLSessionDownlo
             }else {
                 print("Your score: \((user?.score)!)")
                 appDelegate?.saveContext()
-                self.present(AchieveViewController(), animated: true, completion: nil)
+                self.navigationController?.pushViewController(AchieveViewController(), animated: true)
             }
         }
         if questionNum! > 0{
@@ -185,7 +193,7 @@ class MainViewController: UIViewController, URLSessionDelegate, URLSessionDownlo
             }else {
                 print("Your score: \((user?.score)!)")
                 appDelegate?.saveContext()
-                self.present(AchieveViewController(), animated: true, completion: nil)
+                self.navigationController?.pushViewController(AchieveViewController(), animated: true)
             }
         }else {
             if questionNum! > 0{
@@ -193,7 +201,7 @@ class MainViewController: UIViewController, URLSessionDelegate, URLSessionDownlo
             }else {
                 print("Your score: \((user?.score)!)")
                 appDelegate?.saveContext()
-                self.present(AchieveViewController(), animated: true, completion: nil)
+                self.navigationController?.pushViewController(AchieveViewController(), animated: true)
             }
         }
         if questionNum! > 0{
@@ -212,7 +220,7 @@ class MainViewController: UIViewController, URLSessionDelegate, URLSessionDownlo
             }else {
                 print("Your score: \((user?.score)!)")
                 appDelegate?.saveContext()
-                self.present(AchieveViewController(), animated: true, completion: nil)
+                self.navigationController?.pushViewController(AchieveViewController(), animated: true)
             }
         }else {
             if questionNum! > 0{
@@ -220,7 +228,7 @@ class MainViewController: UIViewController, URLSessionDelegate, URLSessionDownlo
             }else {
                 print("Your score: \((user?.score)!)")
                 appDelegate?.saveContext()
-                self.present(AchieveViewController(), animated: true, completion: nil)
+                self.navigationController?.pushViewController(AchieveViewController(), animated: true)
             }
         }
         if questionNum! > 0{
